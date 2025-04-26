@@ -16,6 +16,11 @@ class ModelExecutor:
         self.input_path = input_path
         self.frame_buffer = []
         self.output_path = output_path
+        
+        print("model_path = " + str(model_path))
+        print("input_path = " + str(input_path))
+        
+
         self.model = YOLO(model_path)
 
     def executeModel(self):

@@ -31,12 +31,9 @@ if not os.path.exists(OUTPUT_FOLDER):
 async def upload_files(video: UploadFile = File(...), model: UploadFile = File(None), model_name: str = Form(None)):
     video_filename = secure_filename(video.filename)
     
-    #print(" = " + str())
     video_path = os.path.join(app.state.UPLOAD_FOLDER, video_filename)
     output_path = os.path.join(app.state.OUTPUT_FOLDER, video_filename)
-    print("video_filename = " + str(video_filename))
-    print("video_path = " + str(video_path))
-    print("output_path = " + str(output_path))
+
     # Save video
     with open(video_path, "wb") as f:
         f.write(await video.read())

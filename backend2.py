@@ -48,7 +48,8 @@ async def upload_files(
         with open(model_path, "wb") as f:
             f.write(await model_file.read())
     elif model_name:
-        model_path = model_name
+        # Handle case where model_name is provided directly
+        model_path = os.path.join(app.state.OUTPUT_FOLDER, model_name)  # Assuming the model is already in the correct directory
 
     # Execute the model
     modelExecutor = BackendModelExecutor.ModelExecutor(model_path, video_path, output_path)

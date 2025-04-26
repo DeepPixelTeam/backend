@@ -10,7 +10,7 @@ app = FastAPI()
 # Enable CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # You can specify specific origins here
+    allow_origins=["*"], 
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -28,11 +28,7 @@ if not os.path.exists(OUTPUT_FOLDER):
     os.makedirs(OUTPUT_FOLDER)
 
 @app.post('/upload-and-run-model')
-async def upload_files(
-    video: UploadFile = File(...),
-    model_file: UploadFile = File(None),
-    model_name: str = Form(None)
-):
+async def upload_files(video: UploadFile = File(...), model: UploadFile = File(None), model_name: str = Form(None)):
     video_filename = secure_filename(video.filename)
     
     #print(" = " + str())
@@ -46,11 +42,11 @@ async def upload_files(
         f.write(await video.read())
 
     model_path = None
-    if model_file:
-        model_filename = secure_filename(model_file.filename)
+    if model:
+        model_filename = secure_filename(model.filename)
         model_path = os.path.join(app.state.UPLOAD_FOLDER, model_filename)
         with open(model_path, "wb") as f:
-            f.write(await model_file.read())
+            f.write(await model.read())
     elif model_name:
         # Handle case where model_name is provided directly
         model_path = os.path.join(app.state.OUTPUT_FOLDER, model_name)  # Assuming the model is already in the correct directory
